@@ -8,7 +8,7 @@ export const INITIAL_PROJECTS = [
   {
     id: "antigravity-mcp",
     name: "antigravity-mcp",
-    path: "E:/Cooking/antigravity-mcp",
+    path: "~/Projects/antigravity-mcp",
     defaultSurface: "dashboard",
     frontendRoots: ["src", "public"],
     blockedRoots: ["dist", "infra", "deploy"],
@@ -20,9 +20,9 @@ export const INITIAL_PROJECTS = [
     }
   },
   {
-    id: "ttsubinos",
-    name: "ttsubinos",
-    path: "E:/Cooking/TTSubinOS",
+    id: "frontend-app",
+    name: "frontend-app",
+    path: "~/Projects/frontend-app",
     defaultSurface: "product-ui",
     frontendRoots: ["src", "app", "components", "public"],
     blockedRoots: ["server", "backend", "prisma", "migrations", "infra"],
@@ -80,7 +80,7 @@ export const INITIAL_SKILLS = [
 export const INITIAL_TASKS = [
   {
     id: "task-001",
-    conversationId: "2cf3ca67-8594-4547-b1c1-f31d6d3cc744",
+    conversationId: "11111111-1111-4111-8111-111111111111",
     project: "antigravity-mcp",
     mode: "redesign",
     surface: "dashboard",
@@ -95,8 +95,8 @@ export const INITIAL_TASKS = [
   },
   {
     id: "task-002",
-    conversationId: "9a42f1b8-6512-42da-9102-1278adbc5231",
-    project: "ttsubinos",
+    conversationId: "22222222-2222-4222-8222-222222222222",
+    project: "frontend-app",
     mode: "polish",
     surface: "product-ui",
     task: "Improve telemetry status indicator contrast and keyboard focus outline on operator view.",
@@ -110,7 +110,7 @@ export const INITIAL_TASKS = [
   },
   {
     id: "task-003",
-    conversationId: "4b9123fe-891a-493b-b219-c90a12e84123",
+    conversationId: "33333333-3333-4333-8333-333333333333",
     project: "antigravity-mcp",
     mode: "create",
     surface: "general",
@@ -122,12 +122,12 @@ export const INITIAL_TASKS = [
     changedFiles: [],
     antigravityStatus: "HANDOFF",
     reason: "backend_task",
-    details: "Scope guard detected backend database migration request. Returned handoff_required to ChatGPT orchestrator."
+    details: "Scope guard detected backend database migration request. Returned handoff_required to the orchestrator."
   },
   {
     id: "task-004",
-    conversationId: "e48102fa-3012-48df-9fa2-8b431c9a0012",
-    project: "ttsubinos",
+    conversationId: "44444444-4444-4444-8444-444444444444",
+    project: "frontend-app",
     mode: "responsive",
     surface: "product-ui",
     task: "Refactor data table into responsive stacked cards on viewport under 768px.",
@@ -141,7 +141,7 @@ export const INITIAL_TASKS = [
   },
   {
     id: "task-005",
-    conversationId: "77a8310c-9821-419b-a01c-d78413204910",
+    conversationId: "55555555-5555-4555-8555-555555555555",
     project: "antigravity-mcp",
     mode: "review",
     surface: "dashboard",

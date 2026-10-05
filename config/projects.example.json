@@ -1,7 +1,7 @@
 {
   "projects": {
-    "ttsubinos": {
-      "path": "C:/Projects/TTSubinOS",
+    "frontend-app": {
+      "path": "~/Projects/frontend-app",
       "frontendRoots": ["src", "app", "components", "public"],
       "blockedRoots": ["server", "backend", "prisma", "migrations", "infra"],
       "defaultSurface": "product-ui",
@@ -10,8 +10,8 @@
         "lint": "npm run lint"
       }
     },
-    "nexora": {
-      "path": "C:/Projects/Nexora",
+    "landing-demo": {
+      "path": "~/Projects/landing-demo",
       "frontendRoots": ["src", "app", "components", "public"],
       "blockedRoots": ["server", "backend", "prisma", "migrations", "infra"],
       "defaultSurface": "landing",
