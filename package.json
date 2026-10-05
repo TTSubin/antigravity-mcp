@@ -1,0 +1,35 @@
+{
+  "name": "antigravity-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Frontend-only MCP bridge from ChatGPT to Google Antigravity CLI.",
+  "bin": {
+    "antigravity-mcp": "dist/src/server.js"
+  },
+  "scripts": {
+    "dev": "tsx src/server.ts",
+    "check": "node --check operator-ui/proxy.mjs",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "start": "node dist/src/server.js",
+    "tunnel:setup": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/tunnel-setup.ps1",
+    "tunnel:doctor": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/tunnel-doctor.ps1",
+    "tunnel:run": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/tunnel-run.ps1",
+    "tunnel:ui": "node operator-ui/proxy.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.0.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^6.0.0",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

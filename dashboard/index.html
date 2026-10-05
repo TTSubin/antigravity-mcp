@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antigravity MCP — Operations &amp; Developer Dashboard</title>
+  <meta name="description" content="Operations dashboard for Antigravity MCP bridge, project scopes, task telemetry, and agent skills.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../public/css/dashboard.css">
+</head>
+<body>
+  <!-- Skip to main content for screen readers -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="app-layout">
+    <!-- Top Header -->
+    <header class="app-header" role="banner">
+      <div class="header-brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <div class="brand-title-wrap">
+            <h1 class="brand-title">Antigravity MCP</h1>
+            <span class="badge badge-subtle">v0.1.0</span>
+            <span class="badge badge-primary">Developer Console</span>
+          </div>
+          <p class="brand-tagline">Frontend-only bridge from ChatGPT to Google Antigravity CLI</p>
+        </div>
+      </div>
+
+      <div class="header-status-group">
+        <div class="status-indicator-pill" id="bridge-status-pill" role="status" aria-live="polite">
+          <span class="status-dot status-dot-online" aria-hidden="true"></span>
+          <span class="status-text">Bridge Active (stdio)</span>
+          <span class="status-detail">Model: gemini-3.8-flash-high</span>
+        </div>
+
+        <div class="header-actions">
+          <button id="theme-toggle-btn" class="btn btn-ghost btn-icon" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+            <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+
+          <button id="refresh-telemetry-btn" class="btn btn-secondary btn-sm" type="button" aria-label="Refresh telemetry and metrics">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            <span>Refresh</span>
+          </button>
+
+          <button id="open-dispatch-btn" class="btn btn-primary btn-sm" type="button" aria-haspopup="dialog" aria-controls="dispatch-dialog">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Dispatch Task</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="app-main" role="main">
+      
+      <!-- Key Telemetry Metrics Grid -->
+      <section class="metrics-grid" aria-label="Key System Telemetry">
+        <article class="metric-card" tabindex="0">
+          <div class="metric-header">
+            <span class="metric-label">Registered Projects</span>
+            <div class="metric-icon metric-icon-blue" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="metric-body">
+            <span class="metric-value" id="stat-project-count">2</span>
+            <span class="metric-subtext">Active workspace targets</span>
+          </div>
+          <div class="metric-footer">
+            <span class="metric-pill metric-pill-success">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Canonical paths verified
+            </span>
+          </div>
+        </article>
+
+        <article class="metric-card" tabindex="0">
+          <div class="metric-header">
+            <span class="metric-label">Frontend Success Rate</span>
+            <div class="metric-icon metric-icon-green" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="metric-body">
+            <span class="metric-value" id="stat-success-rate">94.8%</span>
+            <span class="metric-subtext">32 of 34 tasks completed</span>
+          </div>
+          <div class="metric-footer">
+            <span class="metric-pill metric-pill-neutral">0 CLI timeouts</span>
+          </div>
+        </article>
+
+        <article class="metric-card" tabindex="0">
+          <div class="metric-header">
+            <span class="metric-label">Scope Guard Enforcements</span>
+            <div class="metric-icon metric-icon-amber" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="metric-body">
+            <span class="metric-value" id="stat-guard-count">100%</span>
+            <span class="metric-subtext">Zero backend leakages</span>
+          </div>
+          <div class="metric-footer">
+            <span class="metric-pill metric-pill-amber">11 handoffs to orchestrator</span>
+          </div>
+        </article>
+
+        <article class="metric-card" tabindex="0">
+          <div class="metric-header">
+            <span class="metric-label">Agent Skills Routing</span>
+            <div class="metric-icon metric-icon-purple" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </div>
+          </div>
+          <div class="metric-body">
+            <span class="metric-value" id="stat-skills-count">ui-ux-pro-max</span>
+            <span class="metric-subtext">Default design intelligence</span>
+          </div>
+          <div class="metric-footer">
+            <span class="metric-pill metric-pill-success">5 skills discovered</span>
+          </div>
+        </article>
+      </section>
+
+      <!-- Navigation Tabs -->
+      <nav class="dashboard-tabs" role="tablist" aria-label="Dashboard sections">
+        <button class="tab-btn active" role="tab" id="tab-overview" aria-selected="true" aria-controls="tabpanel-overview" tabindex="0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+          <span>Execution Stream</span>
+          <span class="tab-badge" id="tasks-count-badge">5</span>
+        </button>
+
+        <button class="tab-btn" role="tab" id="tab-projects" aria-selected="false" aria-controls="panel-projects" tabindex="-1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          <span>Projects &amp; Scope Guard</span>
+        </button>
+
+        <button class="tab-btn" role="tab" id="tab-skills" aria-selected="false" aria-controls="panel-skills" tabindex="-1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+          </svg>
+          <span>Agent Skills Directory</span>
+        </button>
+
+        <button class="tab-btn" role="tab" id="tab-tunnel" aria-selected="false" aria-controls="panel-tunnel" tabindex="-1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+          <span>Tunnel &amp; Diagnostics</span>
+        </button>
+      </nav>
+
+      <!-- Panel: Execution Stream -->
+      <div class="tab-panel active" id="tabpanel-overview" role="tabpanel" aria-labelledby="tab-overview">
+        <div class="panel-layout">
+          <!-- Main Tasks Column -->
+          <div class="panel-main">
+            <!-- Filter Toolbar -->
+            <div class="toolbar" role="region" aria-label="Task filters">
+              <div class="search-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="search" id="task-search-input" placeholder="Search tasks, project, mode, or conversation ID..." aria-label="Search execution stream">
+              </div>
+
+              <div class="filter-group">
+                <label for="status-filter-select" class="sr-only">Filter by status</label>
+                <select id="status-filter-select" class="form-select">
+                  <option value="all">All Statuses</option>
+                  <option value="success">Success</option>
+                  <option value="handoff_required">Handoff Required</option>
+                  <option value="setup_required">Setup Required</option>
+                  <option value="antigravity_incomplete">Incomplete</option>
+                </select>
+
+                <label for="mode-filter-select" class="sr-only">Filter by mode</label>
+                <select id="mode-filter-select" class="form-select">
+                  <option value="all">All Modes</option>
+                  <option value="create">create</option>
+                  <option value="redesign">redesign</option>
+                  <option value="fix-ui">fix-ui</option>
+                  <option value="responsive">responsive</option>
+                  <option value="polish">polish</option>
+                  <option value="review">review</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Task List Container -->
+            <div class="tasks-container" id="tasks-list" role="feed" aria-busy="false" aria-label="Execution tasks feed">
+              <!-- Dynamically populated by dashboard.js -->
+            </div>
+
+            <!-- Empty State (hidden by default) -->
+            <div class="empty-state hidden" id="tasks-empty-state">
+              <div class="empty-icon" aria-hidden="true">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </div>
+              <h3 class="empty-title">No matching executions found</h3>
+              <p class="empty-desc">Try adjusting your search query or reset the filters to see all task executions.</p>
+              <button class="btn btn-secondary btn-sm" id="reset-filters-btn" type="button">Reset Filters</button>
+            </div>
+          </div>
+
+          <!-- Side Inspector Column -->
+          <aside class="panel-aside" aria-label="Task detail inspector">
+            <div class="card inspector-card" id="task-inspector">
+              <div class="card-header">
+                <h2 class="card-title">Execution Inspector</h2>
+                <span class="badge badge-subtle" id="inspector-badge">Select a task</span>
+              </div>
+              <div class="card-body" id="inspector-body">
+                <div class="inspector-placeholder">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                  <p>Click on any execution card in the stream to inspect prompt compilation, Antigravity CLI status, and changed files.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Scope Guard Quick Validator Card -->
+            <div class="card validator-card">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h2 class="card-title">Live Scope Guard Tester</h2>
+                  <span class="badge badge-success">Frontend Boundary</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <p class="text-secondary text-sm">Quickly verify whether a prompt will be accepted by Antigravity or handed off back to the orchestrator:</p>
+                <div class="form-group">
+                  <label for="scope-test-input" class="form-label text-xs">Test Task Instruction</label>
+                  <textarea id="scope-test-input" class="form-textarea" rows="2" placeholder="e.g., Update navbar button or Add postgres user schema..."></textarea>
+                </div>
+                <div class="scope-verdict" id="scope-verdict-result" role="status" aria-live="polite">
+                  <span class="verdict-icon" aria-hidden="true">💡</span>
+                  <span class="verdict-text">Type a task above to test classification in real time</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- Panel: Projects & Scope Guard -->
+      <div class="tab-panel hidden" id="panel-projects" role="tabpanel" aria-labelledby="tab-projects">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Configured Workspaces</h2>
+            <p class="section-desc">Projects defined in <code>~/.antigravity-mcp/projects.json</code> and protected by the Antigravity Scope Guard.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btn-copy-config-path" type="button" aria-label="Copy projects config file path">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy Config Path</span>
+          </button>
+        </div>
+
+        <div class="projects-grid" id="projects-grid">
+          <!-- Dynamically populated by dashboard.js -->
+        </div>
+
+        <!-- Scope Guard Boundary Rules Reference -->
+        <div class="card rules-card">
+          <div class="card-header">
+            <h3 class="card-title">Scope Guard Hard Boundaries</h3>
+            <span class="badge badge-primary">ADVERTISE = USABLE</span>
+          </div>
+          <div class="card-body">
+            <div class="rules-columns">
+              <div class="rule-box rule-box-allowed">
+                <h4 class="rule-box-title">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  Allowed Frontend Domains
+                </h4>
+                <ul class="rule-list">
+                  <li>React / Next.js / Vue / Svelte UI components</li>
+                  <li>HTML &amp; modern responsive CSS layouts</li>
+                  <li>Visual redesigns, styling, design tokens, polish</li>
+                  <li>Accessibility (ARIA, keyboard nav, contrast)</li>
+                  <li>Interactive frontend states (hover, focus, empty, loading)</li>
+                </ul>
+              </div>
+
+              <div class="rule-box rule-box-blocked">
+                <h4 class="rule-box-title">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  Blocked Roots (Returns handoff_required)
+                </h4>
+                <ul class="rule-list">
+                  <li>API routes, endpoints, backend handlers</li>
+                  <li>Database schemas, migrations (Prisma, SQL, Redis)</li>
+                  <li>Authentication servers, JWT validation, sessions</li>
+                  <li>Docker, Kubernetes, Nginx, cloud infrastructure</li>
+                  <li>Queues, cron workers, webhooks, background services</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel: Agent Skills Directory -->
+      <div class="tab-panel hidden" id="panel-skills" role="tabpanel" aria-labelledby="tab-skills">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Agent Skills Intelligence</h2>
+            <p class="section-desc">Skills discovered under <code>.agents/skills/</code> and intelligently routed based on surface and mode.</p>
+          </div>
+        </div>
+
+        <div class="skills-grid" id="skills-grid">
+          <!-- Dynamically populated by dashboard.js -->
+        </div>
+      </div>
+
+      <!-- Panel: Tunnel & Diagnostics -->
+      <div class="tab-panel hidden" id="panel-tunnel" role="tabpanel" aria-labelledby="tab-tunnel">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Secure MCP Tunnel &amp; CLI Runtime</h2>
+            <p class="section-desc">Diagnostic health indicators for ChatGPT MCP connectivity and local Antigravity CLI binary execution.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="run-doctor-btn" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+            <span>Run Tunnel Doctor</span>
+          </button>
+        </div>
+
+        <div class="diagnostics-grid">
+          <div class="card diagnostic-card">
+            <div class="card-header">
+              <h3 class="card-title">Antigravity CLI Environment</h3>
+              <span class="badge badge-success" id="diag-cli-status">Operational</span>
+            </div>
+            <div class="card-body">
+              <dl class="meta-dl">
+                <dt>Executable Path:</dt>
+                <dd><code id="diag-cli-path">%LOCALAPPDATA%\agy\bin\agy.exe</code></dd>
+                <dt>Default Model:</dt>
+                <dd><code>gemini-3.8-flash-high</code></dd>
+                <dt>Output Format:</dt>
+                <dd><code>json (outer envelope parsed by MCP)</code></dd>
+                <dt>Execution Mode:</dt>
+                <dd><code>accept-edits (or plan for inspectOnly)</code></dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="card diagnostic-card">
+            <div class="card-header">
+              <h3 class="card-title">Tunnel Client Configuration</h3>
+              <span class="badge badge-primary">profile: antigravity-mcp</span>
+            </div>
+            <div class="card-body">
+              <dl class="meta-dl">
+                <dt>Control Plane Key:</dt>
+                <dd><span class="badge badge-success">Configured in User Env</span></dd>
+                <dt>Local Operator UI:</dt>
+                <dd><a href="http://127.0.0.1:8080/ui" target="_blank" rel="noopener noreferrer" class="link-external">http://127.0.0.1:8080/ui</a></dd>
+                <dt>Tunnel Runner Script:</dt>
+                <dd><code>scripts/tunnel-run.ps1</code></dd>
+                <dt>Doctor Script:</dt>
+                <dd><code>scripts/tunnel-doctor.ps1</code></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Footer Component -->
+    <footer class="app-footer" role="contentinfo">
+      <div class="footer-content">
+        <p class="text-xs text-secondary">Antigravity MCP v0.1.0 &bull; Frontend Implementation Agent Bridge &bull; Protected by Scope Guard</p>
+        <p class="text-xs text-secondary">Status: <span class="badge badge-success">ADVERTISE = USABLE</span></p>
+      </div>
+    </footer>
+
+    <!-- Dispatch Task Modal Dialog -->
+    <div class="modal-backdrop hidden" id="dispatch-dialog-backdrop">
+      <div class="modal-dialog" id="dispatch-dialog" role="dialog" aria-modal="true" aria-labelledby="dispatch-dialog-title">
+        <header class="modal-header">
+          <div class="modal-title-wrap">
+            <h2 class="modal-title" id="dispatch-dialog-title">Dispatch Frontend Task</h2>
+            <p class="modal-desc">Test the <code>antigravity_execute</code> tool simulation with live validation.</p>
+          </div>
+          <button type="button" class="btn btn-ghost btn-icon" id="close-modal-btn" aria-label="Close dialog">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </header>
+
+        <form id="dispatch-form" class="modal-body">
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="task-project-select" class="form-label">Target Project <span class="required">*</span></label>
+              <select id="task-project-select" class="form-select" required>
+                <option value="antigravity-mcp">antigravity-mcp (current)</option>
+                <option value="ttsubinos">ttsubinos</option>
+              </select>
+            </div>
+
+            <div class="form-group flex-1">
+              <label for="task-mode-select" class="form-label">Execution Mode <span class="required">*</span></label>
+              <select id="task-mode-select" class="form-select" required>
+                <option value="redesign">redesign</option>
+                <option value="create">create</option>
+                <option value="polish">polish</option>
+                <option value="fix-ui">fix-ui</option>
+                <option value="responsive">responsive</option>
+                <option value="review">review</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="task-surface-select" class="form-label">Frontend Surface</label>
+              <select id="task-surface-select" class="form-select">
+                <option value="dashboard">dashboard</option>
+                <option value="product-ui">product-ui</option>
+                <option value="landing">landing</option>
+                <option value="settings">settings</option>
+                <option value="form">form</option>
+                <option value="portfolio">portfolio</option>
+                <option value="general">general</option>
+              </select>
+            </div>
+
+            <div class="form-group flex-1">
+              <label for="task-effort-select" class="form-label">Effort Level</label>
+              <select id="task-effort-select" class="form-select">
+                <option value="medium">medium (default)</option>
+                <option value="high">high</option>
+                <option value="low">low</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="task-instruction-input" class="form-label">Task Instruction <span class="required">*</span></label>
+            <textarea id="task-instruction-input" class="form-textarea" rows="3" required placeholder="Describe the UI change, component redesign, or styling improvements..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="task-scope-input" class="form-label">Scope Items (comma separated)</label>
+            <input type="text" id="task-scope-input" class="form-input" placeholder="e.g. frontend dashboard, layout, responsive styles">
+          </div>
+
+          <div class="form-feedback" id="dispatch-form-feedback" role="alert" aria-live="polite"></div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="cancel-modal-btn">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="submit-dispatch-btn">
+              <span class="btn-spinner hidden" aria-hidden="true"></span>
+              <span class="btn-text">Execute Task</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  </div>
+
+  <script type="module" src="../public/js/dashboard.js"></script>
+</body>
+</html>
